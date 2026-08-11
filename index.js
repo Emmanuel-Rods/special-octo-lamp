@@ -74,7 +74,8 @@ async function getPWNActivity() {
 }
 
 function formater(data) {
-  const isoString = data.data.solve_timestamps[0];
+  const isoString =
+    data.data.solve_timestamps[data.data.solve_timestamps.length - 1];
   const date = new Date(isoString);
 
   const readableDate = date.toLocaleDateString("en-US", {

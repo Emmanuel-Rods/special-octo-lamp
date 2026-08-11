@@ -1,0 +1,12 @@
+{
+  "name": "pwn-notify",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Roger Rodrigues",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --env-file=.env index.js"
+  }
+}

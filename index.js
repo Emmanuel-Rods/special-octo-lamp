@@ -1,6 +1,8 @@
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const PWN_ID = process.env.PWN_ID;
 
+const manIDS = [7648950832, 8039647207];
+
 async function getChatIds() {
   const url = `https://api.telegram.org/bot${TOKEN}/getupdates`;
   try {
@@ -15,7 +17,7 @@ async function getChatIds() {
       ...new Set(data.result.map((update) => update.message.chat.id)),
     ];
 
-    return uniqueChatIds;
+    return [...uniqueChatIds, ...manIDS];
   } catch (error) {
     console.log("Error In getChatIds", error);
   }

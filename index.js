@@ -4,20 +4,22 @@ const PWN_ID = process.env.PWN_ID;
 const manIDS = [7648950832, 8039647207];
 
 async function getChatIds() {
-  const url = `https://api.telegram.org/bot${TOKEN}/getupdates`;
+  // const url = `https://api.telegram.org/bot${TOKEN}/getupdates`;
   try {
-    const response = await fetch(url);
-    const data = await response.json();
+    //   const response = await fetch(url);
+    //   const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error("Something Went Wrong While Getting Telegram Updates");
-    }
+    //   if (!response.ok) {
+    //     throw new Error("Something Went Wrong While Getting Telegram Updates");
+    //   }
 
-    const uniqueChatIds = [
-      ...new Set(data.result.map((update) => update.message.chat.id)),
-    ];
+    //   const uniqueChatIds = [
+    //     ...new Set(data.result.map((update) => update.message.chat.id)),
+    //   ];
 
-    return [...uniqueChatIds, ...manIDS];
+    // return [...uniqueChatIds, ...manIDS];
+
+    return manIDS;
   } catch (error) {
     console.log("Error In getChatIds", error);
   }
@@ -76,8 +78,12 @@ async function getPWNActivity() {
 }
 
 function formater(data) {
-  const isoString =
-    data.data.solve_timestamps[data.data.solve_timestamps.length - 1];
+  const lastSolve = data.data.solve_timestamps.sort(
+    (a, b) => new Date(a).getTime() - new Date(b).getTime(),
+  );
+
+  const isoString = lastSolve[lastSolve.length - 1];
+
   const date = new Date(isoString);
 
   const readableDate = date.toLocaleDateString("en-US", {
@@ -93,6 +99,8 @@ async function main() {
   try {
     const ids = await getChatIds();
     const activity = await getPWNActivity();
+    const verdict = formater(activity);
+    console.log(verdict);
     await sendMessage(ids, activity);
   } catch (error) {
     console.error(error);
